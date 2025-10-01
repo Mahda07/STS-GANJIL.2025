@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMKM Kuliner - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --dark: #292f36;
+            --light: #f7fff7;
+            --accent: #ffd166;
+            --success: #06d6a0;
+            --danger: #ef476f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR STYLING */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1f25 100%);
+            color: white;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .logo {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo h2 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-links {
+            margin-top: 30px;
+        }
+
+        .nav-links li {
+            list-style: none;
+            padding: 15px 25px;
+            transition: all 0.3s;
+        }
+
+        .nav-links li:hover {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent);
+        }
+
+        .nav-links li.active {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent);
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* MAIN CONTENT STYLING */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 1.8rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* CARD STYLING */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h3 {
+            color: var(--dark);
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff5252;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #05c290;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #ed2e5a;
+        }
+
+        .btn-warning {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-warning:hover {
+            background-color: #ffc747;
+        }
+
+        /* STATS CARDS */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .stat-1 .stat-icon {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--primary);
+        }
+
+        .stat-2 .stat-icon {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--secondary);
+        }
+
+        .stat-3 .stat-icon {
+            background: rgba(255, 209, 102, 0.2);
+            color: var(--accent);
+        }
+
+        .stat-4 .stat-icon {
+            background: rgba(6, 214, 160, 0.2);
+            color: var(--success);
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* TABLE STYLING */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* FORM STYLING */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* MODAL STYLING */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            animation: modalAppear 0.3s;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--dark);
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* MENU ITEM STYLING */
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-img {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .menu-info {
+            padding: 15px;
+        }
+
+        .menu-info h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .menu-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .menu-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        /* RESPONSIVE STYLING */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .nav-links {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .nav-links li {
+                border-left: none;
+                border-bottom: 4px solid transparent;
+            }
+            
+            .nav-links li.active, .nav-links li:hover {
+                border-left: none;
+                border-bottom: 4px solid var(--accent);
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-utensils"></i> UMKM Kuliner</h2>
+                <p>Dashboard Management</p>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Menu Makanan</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart"></i> Pesanan</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Pengaturan</a></li>
+            </ul>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Dashboard UMKM Kuliner</h1>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+UMKM&background=ff6b6b&color=fff" alt="Admin">
+                    <span>Admin UMKM</span>
+                </div>
+            </div>
+
+            <!-- STATISTICS CARDS -->
+            <div class="stats-container">
+                <div class="stat-card stat-1">
+                    <div class="stat-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>42</h3>
+                        <p>Menu Tersedia</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-2">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>128</h3>
+                        <p>Pesanan Hari Ini</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-3">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Rp 3.2 Jt</h3>
+                        <p>Pendapatan Bulan Ini</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-4">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>86%</h3>
+                        <p>Kepuasan Pelanggan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU MANAGEMENT CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Manajemen Menu Makanan</h3>
+                    <button class="btn btn-primary" id="addMenuBtn">
+                        <i class="fas fa-plus"></i> Tambah Menu Baru
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Menu</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nasi Goreng Spesial</td>
+                                <td>Makanan Utama</td>
+                                <td>Rp 25.000</td>
+                                <td><span style="color: var(--success);">Tersedia</span></td>
+                                <td class="action-buttons">
+                                    <button class="action-btn btn-warning edit-btn">
+                                        <i class="fas fa-edit"></i> Ubah
+                                    </button>
+                                    <button class="action-btn btn-danger delete-btn">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Es Jeruk Segar</td>
+                                <td>Minuman</td>
+                                <td>Rp 12.000</td>
+                                <td><span style="color: var(--success);">Tersedia</span></td>
+                                <td class="action-buttons">
+                                    <button class="action-btn btn-warning edit-btn">
+                                        <i class="fas fa-edit"></i> Ubah
+                                    </button>
+                                    <button class="action-btn btn-danger delete-btn">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Gado-gado</td>
+                                <td>Makanan Utama</td>
+                                <td>Rp 18.000</td>
+                                <td><span style="color: var(--danger);">Habis</span></td>
+                                <td class="action-buttons">
+                                    <button class="action-btn btn-warning edit-btn">
+                                        <i class="fas fa-edit"></i> Ubah
+                                    </button>
+                                    <button class="action-btn btn-danger delete-btn">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MENU ITEMS GRID -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Daftar Menu Makanan</h3>
+                </div>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                        <div class="menu-info">
+                            <h4>Nasi Goreng Spesial</h4>
+                            <p>Nasi goreng dengan ayam, udang, dan sayuran segar</p>
+                            <div class="menu-price">Rp 25.000</div>
+                            <div class="menu-actions">
+                                <button class="btn btn-warning edit-btn">
+                                    <i class="fas fa-edit"></i> Ubah
+                                </button>
+                                <button class="btn btn-danger delete-btn">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                        <div class="menu-info">
+                            <h4>Gado-gado</h4>
+                            <p>Sayuran segar dengan bumbu kacang khas Indonesia</p>
+                            <div class="menu-price">Rp 18.000</div>
+                            <div class="menu-actions">
+                                <button class="btn btn-warning edit-btn">
+                                    <i class="fas fa-edit"></i> Ubah
+                                </button>
+                                <button class="btn btn-danger delete-btn">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                        <div class="menu-info">
+                            <h4>Ayam Bakar</h4>
+                            <p>Ayam bakar dengan bumbu rempah khas nusantara</p>
+                            <div class="menu-price">Rp 32.000</div>
+                            <div class="menu-actions">
+                                <button class="btn btn-warning edit-btn">
+                                    <i class="fas fa-edit"></i> Ubah
+                                </button>
+                                <button class="btn btn-danger delete-btn">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH/EDIT MENU -->
+    <div class="modal" id="menuModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Tambah Menu Baru</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="menuForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="menuName">Nama Menu</label>
+                            <input type="text" id="menuName" class="form-control" placeholder="Masukkan nama menu">
+                        </div>
+                        <div class="form-group">
+                            <label for="menuCategory">Kategori</label>
+                            <select id="menuCategory" class="form-control">
+                                <option value="">Pilih Kategori</option>
+                                <option value="makanan-utama">Makanan Utama</option>
+                                <option value="minuman">Minuman</option>
+                                <option value="appetizer">Appetizer</option>
+                                <option value="dessert">Dessert</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="menuDescription">Deskripsi Menu</label>
+                        <textarea id="menuDescription" class="form-control" rows="3" placeholder="Deskripsi menu"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="menuPrice">Harga</label>
+                            <input type="number" id="menuPrice" class="form-control" placeholder="Masukkan harga">
+                        </div>
+                        <div class="form-group">
+                            <label for="menuStatus">Status</label>
+                            <select id="menuStatus" class="form-control">
+                                <option value="tersedia">Tersedia</option>
+                                <option value="habis">Habis</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="menuImage">Gambar Menu</label>
+                        <input type="file" id="menuImage" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="cancelBtn">Batal</button>
+                <button class="btn btn-success" id="saveMenuBtn">Simpan Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI HAPUS -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Konfirmasi Hapus</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus menu ini? Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" id="cancelDeleteBtn">Batal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // KODE JAVASCRIPT UNTUK FUNGSIONALITAS CRUD
+
+        // Mendapatkan elemen modal dan tombol
+        const menuModal = document.getElementById('menuModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const addMenuBtn = document.getElementById('addMenuBtn');
+        const saveMenuBtn = document.getElementById('saveMenuBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const closeButtons = document.querySelectorAll('.close');
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const modalTitle = document.getElementById('modalTitle');
+
+        // Fungsi untuk membuka modal tambah menu
+        // CREATE: Membuka form untuk menambah data baru
+        addMenuBtn.addEventListener('click', function() {
+            modalTitle.textContent = 'Tambah Menu Baru';
+            document.getElementById('menuForm').reset();
+            menuModal.style.display = 'flex';
+        });
+
+        // Fungsi untuk membuka modal edit menu
+        // READ & UPDATE: Membaca data yang ada dan membuka form untuk mengubahnya
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                modalTitle.textContent = 'Edit Menu';
+                // Di aplikasi nyata, kita akan mengambil data dari database
+                // Untuk demo, kita mengisi dengan data contoh
+                document.getElementById('menuName').value = 'Nasi Goreng Spesial';
+                document.getElementById('menuCategory').value = 'makanan-utama';
+                document.getElementById('menuDescription').value = 'Nasi goreng dengan ayam, udang, dan sayuran segar';
+                document.getElementById('menuPrice').value = '25000';
+                document.getElementById('menuStatus').value = 'tersedia';
+                menuModal.style.display = 'flex';
+            });
+        });
+
+        // Fungsi untuk menyimpan menu (baik tambah atau edit)
+        // CREATE & UPDATE: Menyimpan data baru atau perubahan data yang ada
+        saveMenuBtn.addEventListener('click', function() {
+            // Di aplikasi nyata, kita akan mengirim data ke server
+            // Untuk demo, kita hanya menampilkan alert
+            alert('Menu berhasil disimpan!');
+            menuModal.style.display = 'none';
+        });
+
+        // Fungsi untuk membuka modal konfirmasi hapus
+        // DELETE: Membuka konfirmasi sebelum menghapus data
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                deleteModal.style.display = 'flex';
+            });
+        });
+
+        // Fungsi untuk menutup modal
+        function closeModal(modal) {
+            modal.style.display = 'none';
+        }
+
+        // Event listener untuk tombol close
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                closeModal(modal);
+            });
+        });
+
+        // Event listener untuk tombol batal
+        cancelBtn.addEventListener('click', function() {
+            closeModal(menuModal);
+        });
+
+        cancelDeleteBtn.addEventListener('click', function() {
+            closeModal(deleteModal);
+        });
+
+        // Fungsi untuk konfirmasi hapus
+        // DELETE: Menghapus data setelah konfirmasi
+        confirmDeleteBtn.addEventListener('click', function() {
+            // Di aplikasi nyata, kita akan mengirim permintaan hapus ke server
+            // Untuk demo, kita hanya menampilkan alert
+            alert('Menu berhasil dihapus!');
+            closeModal(deleteModal);
+        });
+
+        // Menutup modal ketika klik di luar konten modal
+        window.addEventListener('click', function(event) {
+            if (event.target === menuModal) {
+                closeModal(menuModal);
+            }
+            if (event.target === deleteModal) {
+                closeModal(deleteModal);
+            }
+        });
+
+        // Kode untuk navigasi sidebar
+        const navLinks = document.querySelectorAll('.nav-links li');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
