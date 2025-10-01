@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMKM Kuliner - Dashboard</title>
+    <title>UMKM Kuliner - Pemesanan Online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,7 @@
             --accent: #ffd166;
             --success: #06d6a0;
             --danger: #ef476f;
+            --whatsapp: #25D366;
         }
 
         * {
@@ -195,6 +196,21 @@
 
         .btn-warning:hover {
             background-color: #ffc747;
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            transform: scale(1.05);
         }
 
         /* STATS CARDS */
@@ -444,6 +460,78 @@
             margin-top: 10px;
         }
 
+        /* ORDER SECTION STYLING */
+        .order-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 2px solid #eee;
+            margin-top: 10px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: var(--secondary);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity {
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .empty-order {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .empty-order i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+
+        /* CUSTOMER INFO FORM */
+        .customer-form {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
         /* RESPONSIVE STYLING */
         @media (max-width: 768px) {
             .container {
@@ -474,6 +562,21 @@
                 flex-direction: column;
                 gap: 0;
             }
+            
+            .menu-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .quantity-controls {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
@@ -497,7 +600,7 @@
         <!-- MAIN CONTENT -->
         <div class="main-content">
             <div class="header">
-                <h1>Dashboard UMKM Kuliner</h1>
+                <h1>Warung Makan Sederhana</h1>
                 <div class="user-info">
                     <img src="https://ui-avatars.com/api/?name=Admin+UMKM&background=ff6b6b&color=fff" alt="Admin">
                     <span>Admin UMKM</span>
@@ -511,7 +614,7 @@
                         <i class="fas fa-utensils"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>42</h3>
+                        <h3>8</h3>
                         <p>Menu Tersedia</p>
                     </div>
                 </div>
@@ -520,7 +623,7 @@
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>128</h3>
+                        <h3>23</h3>
                         <p>Pesanan Hari Ini</p>
                     </div>
                 </div>
@@ -529,7 +632,7 @@
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>Rp 3.2 Jt</h3>
+                        <h3>Rp 1.8 Jt</h3>
                         <p>Pendapatan Bulan Ini</p>
                     </div>
                 </div>
@@ -538,7 +641,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>86%</h3>
+                        <h3>92%</h3>
                         <p>Kepuasan Pelanggan</p>
                     </div>
                 </div>
@@ -564,52 +667,8 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nasi Goreng Spesial</td>
-                                <td>Makanan Utama</td>
-                                <td>Rp 25.000</td>
-                                <td><span style="color: var(--success);">Tersedia</span></td>
-                                <td class="action-buttons">
-                                    <button class="action-btn btn-warning edit-btn">
-                                        <i class="fas fa-edit"></i> Ubah
-                                    </button>
-                                    <button class="action-btn btn-danger delete-btn">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Es Jeruk Segar</td>
-                                <td>Minuman</td>
-                                <td>Rp 12.000</td>
-                                <td><span style="color: var(--success);">Tersedia</span></td>
-                                <td class="action-buttons">
-                                    <button class="action-btn btn-warning edit-btn">
-                                        <i class="fas fa-edit"></i> Ubah
-                                    </button>
-                                    <button class="action-btn btn-danger delete-btn">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Gado-gado</td>
-                                <td>Makanan Utama</td>
-                                <td>Rp 18.000</td>
-                                <td><span style="color: var(--danger);">Habis</span></td>
-                                <td class="action-buttons">
-                                    <button class="action-btn btn-warning edit-btn">
-                                        <i class="fas fa-edit"></i> Ubah
-                                    </button>
-                                    <button class="action-btn btn-danger delete-btn">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody id="menuTableBody">
+                            <!-- Data menu akan dimasukkan melalui JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -620,54 +679,46 @@
                 <div class="card-header">
                     <h3>Daftar Menu Makanan</h3>
                 </div>
-                <div class="menu-items">
-                    <div class="menu-item">
-                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-                        <div class="menu-info">
-                            <h4>Nasi Goreng Spesial</h4>
-                            <p>Nasi goreng dengan ayam, udang, dan sayuran segar</p>
-                            <div class="menu-price">Rp 25.000</div>
-                            <div class="menu-actions">
-                                <button class="btn btn-warning edit-btn">
-                                    <i class="fas fa-edit"></i> Ubah
-                                </button>
-                                <button class="btn btn-danger delete-btn">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
+                <div class="menu-items" id="menuItemsContainer">
+                    <!-- Item menu akan dimasukkan melalui JavaScript -->
+                </div>
+            </div>
+
+            <!-- ORDER SECTION -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Pesanan Anda</h3>
+                    <button class="btn btn-whatsapp" id="orderWhatsAppBtn">
+                        <i class="fab fa-whatsapp"></i> Pesan via WhatsApp
+                    </button>
+                </div>
+                <div class="order-summary">
+                    <div class="customer-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerName">Nama Pemesan</label>
+                                <input type="text" id="customerName" class="form-control" placeholder="Masukkan nama Anda">
                             </div>
+                            <div class="form-group">
+                                <label for="customerPhone">No. WhatsApp</label>
+                                <input type="tel" id="customerPhone" class="form-control" placeholder="Contoh: 08123456789">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Alamat Pengiriman</label>
+                            <textarea id="customerAddress" class="form-control" rows="2" placeholder="Masukkan alamat lengkap"></textarea>
                         </div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-                        <div class="menu-info">
-                            <h4>Gado-gado</h4>
-                            <p>Sayuran segar dengan bumbu kacang khas Indonesia</p>
-                            <div class="menu-price">Rp 18.000</div>
-                            <div class="menu-actions">
-                                <button class="btn btn-warning edit-btn">
-                                    <i class="fas fa-edit"></i> Ubah
-                                </button>
-                                <button class="btn btn-danger delete-btn">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </div>
+                    
+                    <div id="orderItemsContainer">
+                        <div class="empty-order">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Belum ada item dalam pesanan</p>
                         </div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-img" style="background-image: url('https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-                        <div class="menu-info">
-                            <h4>Ayam Bakar</h4>
-                            <p>Ayam bakar dengan bumbu rempah khas nusantara</p>
-                            <div class="menu-price">Rp 32.000</div>
-                            <div class="menu-actions">
-                                <button class="btn btn-warning edit-btn">
-                                    <i class="fas fa-edit"></i> Ubah
-                                </button>
-                                <button class="btn btn-danger delete-btn">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </div>
-                        </div>
+                    <div class="order-total">
+                        <span>Total:</span>
+                        <span id="orderTotal">Rp 0</span>
                     </div>
                 </div>
             </div>
@@ -683,42 +734,43 @@
             </div>
             <div class="modal-body">
                 <form id="menuForm">
+                    <input type="hidden" id="menuId">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="menuName">Nama Menu</label>
-                            <input type="text" id="menuName" class="form-control" placeholder="Masukkan nama menu">
+                            <input type="text" id="menuName" class="form-control" placeholder="Masukkan nama menu" required>
                         </div>
                         <div class="form-group">
                             <label for="menuCategory">Kategori</label>
-                            <select id="menuCategory" class="form-control">
+                            <select id="menuCategory" class="form-control" required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="makanan-utama">Makanan Utama</option>
-                                <option value="minuman">Minuman</option>
-                                <option value="appetizer">Appetizer</option>
-                                <option value="dessert">Dessert</option>
+                                <option value="Makanan Utama">Makanan Utama</option>
+                                <option value="Minuman">Minuman</option>
+                                <option value="Snack">Snack</option>
+                                <option value="Dessert">Dessert</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="menuDescription">Deskripsi Menu</label>
-                        <textarea id="menuDescription" class="form-control" rows="3" placeholder="Deskripsi menu"></textarea>
+                        <textarea id="menuDescription" class="form-control" rows="3" placeholder="Deskripsi menu" required></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="menuPrice">Harga</label>
-                            <input type="number" id="menuPrice" class="form-control" placeholder="Masukkan harga">
+                            <input type="number" id="menuPrice" class="form-control" placeholder="Masukkan harga" required>
                         </div>
                         <div class="form-group">
                             <label for="menuStatus">Status</label>
-                            <select id="menuStatus" class="form-control">
-                                <option value="tersedia">Tersedia</option>
-                                <option value="habis">Habis</option>
+                            <select id="menuStatus" class="form-control" required>
+                                <option value="Tersedia">Tersedia</option>
+                                <option value="Habis">Habis</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="menuImage">Gambar Menu</label>
-                        <input type="file" id="menuImage" class="form-control">
+                        <label for="menuImage">URL Gambar Menu</label>
+                        <input type="text" id="menuImage" class="form-control" placeholder="Masukkan URL gambar">
                     </div>
                 </form>
             </div>
@@ -738,6 +790,7 @@
             </div>
             <div class="modal-body">
                 <p>Apakah Anda yakin ingin menghapus menu ini? Tindakan ini tidak dapat dibatalkan.</p>
+                <input type="hidden" id="deleteMenuId">
             </div>
             <div class="modal-footer">
                 <button class="btn btn-warning" id="cancelDeleteBtn">Batal</button>
@@ -747,109 +800,497 @@
     </div>
 
     <script>
-        // KODE JAVASCRIPT UNTUK FUNGSIONALITAS CRUD
+        // DATA MENU AWAL
+        let menuItems = [
+            {
+                id: 1,
+                name: "Nasi Goreng Spesial",
+                category: "Makanan Utama",
+                description: "Nasi goreng dengan ayam, udang, dan sayuran segar",
+                price: 25000,
+                status: "Tersedia",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 2,
+                name: "Es Jeruk Segar",
+                category: "Minuman",
+                description: "Es jeruk segar dengan potongan jeruk asli",
+                price: 12000,
+                status: "Tersedia",
+                image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 3,
+                name: "Gado-gado",
+                category: "Makanan Utama",
+                description: "Sayuran segar dengan bumbu kacang khas Indonesia",
+                price: 18000,
+                status: "Habis",
+                image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 4,
+                name: "Sate Ayam",
+                category: "Makanan Utama",
+                description: "Sate ayam dengan bumbu kacang spesial",
+                price: 30000,
+                status: "Tersedia",
+                image: "https://images.unsplash.com/photo-1587332212137-734566b4a1c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            }
+        ];
 
-        // Mendapatkan elemen modal dan tombol
+        // DATA PESANAN
+        let orderItems = [];
+
+        // ELEMEN DOM
+        const menuTableBody = document.getElementById('menuTableBody');
+        const menuItemsContainer = document.getElementById('menuItemsContainer');
+        const orderItemsContainer = document.getElementById('orderItemsContainer');
+        const orderTotalElement = document.getElementById('orderTotal');
         const menuModal = document.getElementById('menuModal');
         const deleteModal = document.getElementById('deleteModal');
         const addMenuBtn = document.getElementById('addMenuBtn');
         const saveMenuBtn = document.getElementById('saveMenuBtn');
         const cancelBtn = document.getElementById('cancelBtn');
         const closeButtons = document.querySelectorAll('.close');
-        const editButtons = document.querySelectorAll('.edit-btn');
-        const deleteButtons = document.querySelectorAll('.delete-btn');
         const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         const modalTitle = document.getElementById('modalTitle');
+        const orderWhatsAppBtn = document.getElementById('orderWhatsAppBtn');
 
-        // Fungsi untuk membuka modal tambah menu
-        // CREATE: Membuka form untuk menambah data baru
-        addMenuBtn.addEventListener('click', function() {
+        // FUNGSI UNTUK MENAMPILKAN MENU DI TABEL
+        function renderMenuTable() {
+            menuTableBody.innerHTML = '';
+            menuItems.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>Rp ${item.price.toLocaleString('id-ID')}</td>
+                    <td><span style="color: ${item.status === 'Tersedia' ? 'var(--success)' : 'var(--danger)'};">${item.status}</span></td>
+                    <td class="action-buttons">
+                        <button class="action-btn btn-warning edit-btn" data-id="${item.id}">
+                            <i class="fas fa-edit"></i> Ubah
+                        </button>
+                        <button class="action-btn btn-danger delete-btn" data-id="${item.id}">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                `;
+                menuTableBody.appendChild(row);
+            });
+            
+            // Tambahkan event listener untuk tombol ubah dan hapus
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    openEditModal(menuId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    openDeleteModal(menuId);
+                });
+            });
+        }
+
+        // FUNGSI UNTUK MENAMPILKAN MENU DI KARTU
+        function renderMenuCards() {
+            menuItemsContainer.innerHTML = '';
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <div class="menu-img" style="background-image: url('${item.image}');"></div>
+                    <div class="menu-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.description}</p>
+                        <div class="menu-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                        <div class="menu-actions">
+                            <button class="btn btn-warning edit-btn" data-id="${item.id}">
+                                <i class="fas fa-edit"></i> Ubah
+                            </button>
+                            <button class="btn btn-danger delete-btn" data-id="${item.id}">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                            ${item.status === 'Tersedia' ? 
+                                `<button class="btn btn-primary add-to-order-btn" data-id="${item.id}">
+                                    <i class="fas fa-cart-plus"></i> Pesan
+                                </button>` : 
+                                `<button class="btn btn-primary" disabled>
+                                    <i class="fas fa-times"></i> Habis
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                `;
+                menuItemsContainer.appendChild(menuItem);
+            });
+            
+            // Tambahkan event listener untuk tombol ubah, hapus, dan pesan
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    openEditModal(menuId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    openDeleteModal(menuId);
+                });
+            });
+            
+            document.querySelectorAll('.add-to-order-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    addToOrder(menuId);
+                });
+            });
+        }
+
+        // FUNGSI UNTUK MENAMPILKAN PESANAN
+        function renderOrder() {
+            orderItemsContainer.innerHTML = '';
+            
+            if (orderItems.length === 0) {
+                orderItemsContainer.innerHTML = `
+                    <div class="empty-order">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Belum ada item dalam pesanan</p>
+                    </div>
+                `;
+                orderTotalElement.textContent = 'Rp 0';
+                return;
+            }
+            
+            orderItems.forEach(item => {
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong>
+                        <p>Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}</p>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn decrease-btn" data-id="${item.id}">-</button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="quantity-btn increase-btn" data-id="${item.id}">+</button>
+                        <button class="btn btn-danger remove-btn" data-id="${item.id}" style="margin-left: 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                orderItemsContainer.appendChild(orderItem);
+            });
+            
+            // Hitung total
+            const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            orderTotalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            
+            // Tambahkan event listener untuk tombol kuantitas
+            document.querySelectorAll('.increase-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    increaseQuantity(menuId);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    decreaseQuantity(menuId);
+                });
+            });
+            
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = parseInt(this.getAttribute('data-id'));
+                    removeFromOrder(menuId);
+                });
+            });
+        }
+
+        // FUNGSI UNTUK MEMBUKA MODAL TAMBAH
+        function openAddModal() {
             modalTitle.textContent = 'Tambah Menu Baru';
             document.getElementById('menuForm').reset();
+            document.getElementById('menuId').value = '';
             menuModal.style.display = 'flex';
-        });
+        }
 
-        // Fungsi untuk membuka modal edit menu
-        // READ & UPDATE: Membaca data yang ada dan membuka form untuk mengubahnya
-        editButtons.forEach(button => {
-            button.addEventListener('click', function() {
+        // FUNGSI UNTUK MEMBUKA MODAL EDIT
+        function openEditModal(menuId) {
+            const menuItem = menuItems.find(item => item.id === menuId);
+            if (menuItem) {
                 modalTitle.textContent = 'Edit Menu';
-                // Di aplikasi nyata, kita akan mengambil data dari database
-                // Untuk demo, kita mengisi dengan data contoh
-                document.getElementById('menuName').value = 'Nasi Goreng Spesial';
-                document.getElementById('menuCategory').value = 'makanan-utama';
-                document.getElementById('menuDescription').value = 'Nasi goreng dengan ayam, udang, dan sayuran segar';
-                document.getElementById('menuPrice').value = '25000';
-                document.getElementById('menuStatus').value = 'tersedia';
+                document.getElementById('menuId').value = menuItem.id;
+                document.getElementById('menuName').value = menuItem.name;
+                document.getElementById('menuCategory').value = menuItem.category;
+                document.getElementById('menuDescription').value = menuItem.description;
+                document.getElementById('menuPrice').value = menuItem.price;
+                document.getElementById('menuStatus').value = menuItem.status;
+                document.getElementById('menuImage').value = menuItem.image;
                 menuModal.style.display = 'flex';
-            });
-        });
+            }
+        }
 
-        // Fungsi untuk menyimpan menu (baik tambah atau edit)
-        // CREATE & UPDATE: Menyimpan data baru atau perubahan data yang ada
-        saveMenuBtn.addEventListener('click', function() {
-            // Di aplikasi nyata, kita akan mengirim data ke server
-            // Untuk demo, kita hanya menampilkan alert
-            alert('Menu berhasil disimpan!');
-            menuModal.style.display = 'none';
-        });
+        // FUNGSI UNTUK MEMBUKA MODAL HAPUS
+        function openDeleteModal(menuId) {
+            document.getElementById('deleteMenuId').value = menuId;
+            deleteModal.style.display = 'flex';
+        }
 
-        // Fungsi untuk membuka modal konfirmasi hapus
-        // DELETE: Membuka konfirmasi sebelum menghapus data
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                deleteModal.style.display = 'flex';
-            });
-        });
+        // FUNGSI UNTUK MENAMBAH MENU BARU
+        function addMenu(menuData) {
+            // Generate ID baru
+            const newId = menuItems.length > 0 ? Math.max(...menuItems.map(item => item.id)) + 1 : 1;
+            menuData.id = newId;
+            menuItems.push(menuData);
+            renderMenuTable();
+            renderMenuCards();
+            closeModal(menuModal);
+            alert('Menu berhasil ditambahkan!');
+        }
 
-        // Fungsi untuk menutup modal
+        // FUNGSI UNTUK MENGUPDATE MENU
+        function updateMenu(menuId, menuData) {
+            const index = menuItems.findIndex(item => item.id === menuId);
+            if (index !== -1) {
+                menuData.id = menuId;
+                menuItems[index] = menuData;
+                renderMenuTable();
+                renderMenuCards();
+                closeModal(menuModal);
+                alert('Menu berhasil diupdate!');
+            }
+        }
+
+        // FUNGSI UNTUK MENGHAPUS MENU
+        function deleteMenu(menuId) {
+            menuItems = menuItems.filter(item => item.id !== menuId);
+            renderMenuTable();
+            renderMenuCards();
+            closeModal(deleteModal);
+            alert('Menu berhasil dihapus!');
+        }
+
+        // FUNGSI UNTUK MENAMBAH ITEM KE PESANAN
+        function addToOrder(menuId) {
+            const menuItem = menuItems.find(item => item.id === menuId);
+            if (menuItem) {
+                const existingItem = orderItems.find(item => item.id === menuId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    orderItems.push({
+                        id: menuItem.id,
+                        name: menuItem.name,
+                        price: menuItem.price,
+                        quantity: 1
+                    });
+                }
+                renderOrder();
+            }
+        }
+
+        // FUNGSI UNTUK MENAMBAH KUANTITAS
+        function increaseQuantity(menuId) {
+            const orderItem = orderItems.find(item => item.id === menuId);
+            if (orderItem) {
+                orderItem.quantity += 1;
+                renderOrder();
+            }
+        }
+
+        // FUNGSI UNTUK MENGURANGI KUANTITAS
+        function decreaseQuantity(menuId) {
+            const orderItem = orderItems.find(item => item.id === menuId);
+            if (orderItem) {
+                if (orderItem.quantity > 1) {
+                    orderItem.quantity -= 1;
+                } else {
+                    removeFromOrder(menuId);
+                    return;
+                }
+                renderOrder();
+            }
+        }
+
+        // FUNGSI UNTUK MENGHAPUS ITEM DARI PESANAN
+        function removeFromOrder(menuId) {
+            orderItems = orderItems.filter(item => item.id !== menuId);
+            renderOrder();
+        }
+
+        // FUNGSI UNTUK MENUTUP MODAL
         function closeModal(modal) {
             modal.style.display = 'none';
         }
 
-        // Event listener untuk tombol close
-        closeButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const modal = this.closest('.modal');
-                closeModal(modal);
+        // FUNGSI UNTUK MENGIRIM PESANAN VIA WHATSAPP
+        function sendOrderViaWhatsApp() {
+            if (orderItems.length === 0) {
+                alert('Tidak ada item dalam pesanan! Silahkan tambahkan menu terlebih dahulu.');
+                return;
+            }
+            
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerPhone = document.getElementById('customerPhone').value.trim();
+            const customerAddress = document.getElementById('customerAddress').value.trim();
+            
+            if (!customerName) {
+                alert('Harap masukkan nama pemesan!');
+                document.getElementById('customerName').focus();
+                return;
+            }
+            
+            if (!customerPhone) {
+                alert('Harap masukkan nomor WhatsApp!');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+            
+            if (!customerAddress) {
+                alert('Harap masukkan alamat pengiriman!');
+                document.getElementById('customerAddress').focus();
+                return;
+            }
+            
+            // Validasi nomor telepon
+            const phoneRegex = /^[0-9]{10,13}$/;
+            if (!phoneRegex.test(customerPhone)) {
+                alert('Format nomor WhatsApp tidak valid! Harap masukkan 10-13 digit angka.');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+            
+            let message = `Halo, saya *${customerName}* ingin memesan:\n\n`;
+            let total = 0;
+            
+            orderItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                message += `▶️ *${item.name}*\n`;
+                message += `   Jumlah: ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}\n`;
+                message += `   Subtotal: Rp ${itemTotal.toLocaleString('id-ID')}\n\n`;
+                total += itemTotal;
             });
-        });
+            
+            message += `💰 *TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\n`;
+            message += `📋 *Detail Pemesan:*\n`;
+            message += `Nama: ${customerName}\n`;
+            message += `No. WhatsApp: ${customerPhone}\n`;
+            message += `Alamat: ${customerAddress}\n\n`;
+            message += `Terima kasih! 🙏`;
+            
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Format nomor telepon (hilangkan +62 atau 0 di depan)
+            let formattedPhone = customerPhone;
+            if (formattedPhone.startsWith('0')) {
+                formattedPhone = '62' + formattedPhone.substring(1);
+            } else if (formattedPhone.startsWith('+62')) {
+                formattedPhone = formattedPhone.substring(1);
+            } else if (formattedPhone.startsWith('62')) {
+                // Sudah benar
+            } else {
+                formattedPhone = '62' + formattedPhone;
+            }
+            
+            // Buka WhatsApp dengan pesan
+            const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Tampilkan konfirmasi
+            alert(`Pesanan akan dikirim ke WhatsApp: ${customerPhone}\n\nTotal: Rp ${total.toLocaleString('id-ID')}`);
+        }
 
-        // Event listener untuk tombol batal
-        cancelBtn.addEventListener('click', function() {
-            closeModal(menuModal);
-        });
-
-        cancelDeleteBtn.addEventListener('click', function() {
-            closeModal(deleteModal);
-        });
-
-        // Fungsi untuk konfirmasi hapus
-        // DELETE: Menghapus data setelah konfirmasi
-        confirmDeleteBtn.addEventListener('click', function() {
-            // Di aplikasi nyata, kita akan mengirim permintaan hapus ke server
-            // Untuk demo, kita hanya menampilkan alert
-            alert('Menu berhasil dihapus!');
-            closeModal(deleteModal);
-        });
-
-        // Menutup modal ketika klik di luar konten modal
-        window.addEventListener('click', function(event) {
-            if (event.target === menuModal) {
+        // EVENT LISTENER
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render data awal
+            renderMenuTable();
+            renderMenuCards();
+            renderOrder();
+            
+            // Event listener untuk tombol tambah menu
+            addMenuBtn.addEventListener('click', openAddModal);
+            
+            // Event listener untuk tombol simpan menu
+            saveMenuBtn.addEventListener('click', function() {
+                const menuId = document.getElementById('menuId').value;
+                const menuName = document.getElementById('menuName').value;
+                const menuPrice = document.getElementById('menuPrice').value;
+                
+                if (!menuName || !menuPrice) {
+                    alert('Harap isi semua field yang wajib diisi!');
+                    return;
+                }
+                
+                const menuData = {
+                    name: menuName,
+                    category: document.getElementById('menuCategory').value,
+                    description: document.getElementById('menuDescription').value,
+                    price: parseInt(menuPrice),
+                    status: document.getElementById('menuStatus').value,
+                    image: document.getElementById('menuImage').value || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                };
+                
+                if (menuId) {
+                    updateMenu(parseInt(menuId), menuData);
+                } else {
+                    addMenu(menuData);
+                }
+            });
+            
+            // Event listener untuk tombol konfirmasi hapus
+            confirmDeleteBtn.addEventListener('click', function() {
+                const menuId = parseInt(document.getElementById('deleteMenuId').value);
+                deleteMenu(menuId);
+            });
+            
+            // Event listener untuk tombol pesan via WhatsApp
+            orderWhatsAppBtn.addEventListener('click', sendOrderViaWhatsApp);
+            
+            // Event listener untuk tombol batal
+            cancelBtn.addEventListener('click', function() {
                 closeModal(menuModal);
-            }
-            if (event.target === deleteModal) {
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
                 closeModal(deleteModal);
-            }
-        });
-
-        // Kode untuk navigasi sidebar
-        const navLinks = document.querySelectorAll('.nav-links li');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+            });
+            
+            // Event listener untuk tombol close
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    closeModal(modal);
+                });
+            });
+            
+            // Menutup modal ketika klik di luar konten modal
+            window.addEventListener('click', function(event) {
+                if (event.target === menuModal) {
+                    closeModal(menuModal);
+                }
+                if (event.target === deleteModal) {
+                    closeModal(deleteModal);
+                }
+            });
+            
+            // Kode untuk navigasi sidebar
+            const navLinks = document.querySelectorAll('.nav-links li');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
     </script>
